@@ -292,13 +292,24 @@ const skills = rawSkills
 							<a href="https://github.com/Johnmusans" target="_blank" rel="noopener" class="block hover:underline underline-offset-4">GitHub →</a>
 						</div>
 					</div>
-					<form action="mailto:johnmusansmk@gmail.com" method="post" enctype="text/plain" class="space-y-3">
-						<input type="text" placeholder="Votre nom" required class="w-full px-5 py-4 rounded-full bg-paper-canvas border border-pale-stone/20 text-[14px] text-ink placeholder:text-faint-text focus:outline-none focus:border-off-black" />
-						<input type="email" placeholder="Votre email" required class="w-full px-5 py-4 rounded-full bg-paper-canvas border border-pale-stone/20 text-[14px] text-ink placeholder:text-faint-text focus:outline-none focus:border-off-black" />
-						<textarea placeholder="Parlez-moi de votre projet…" rows="6" required class="w-full px-5 py-4 rounded-[28px] bg-paper-canvas border border-pale-stone/20 text-[14px] text-ink placeholder:text-faint-text focus:outline-none focus:border-off-black resize-none"></textarea>
-						<button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-off-black text-paper-canvas rounded-full px-5 py-4 text-[14px] hover:bg-ink transition-colors">
-							Envoyer le message <span aria-hidden="true">→</span>
-						</button>
+					<form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-3">
+						<input type="hidden" name="_subject" value="Nouveau message — Portfolio John Musans" />
+						<input type="text" name="name" placeholder="Votre nom" required class="w-full px-5 py-4 rounded-full bg-paper-canvas border border-pale-stone/20 text-[14px] text-ink placeholder:text-faint-text focus:outline-none focus:border-off-black" />
+						<input type="email" name="email" placeholder="Votre email" required class="w-full px-5 py-4 rounded-full bg-paper-canvas border border-pale-stone/20 text-[14px] text-ink placeholder:text-faint-text focus:outline-none focus:border-off-black" />
+						<textarea name="message" placeholder="Parlez-moi de votre projet…" rows="6" required class="w-full px-5 py-4 rounded-[28px] bg-paper-canvas border border-pale-stone/20 text-[14px] text-ink placeholder:text-faint-text focus:outline-none focus:border-off-black resize-none"></textarea>
+						<input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+						<div id="form-success" class="hidden text-[14px] text-ink bg-paper-canvas/80 rounded-[20px] px-5 py-4 text-center">
+							✓ Message envoyé ! Je vous réponds sous 24h.
+						</div>
+					<div id="form-error" class="hidden flex items-start gap-3 text-[14px] text-ink bg-paper-canvas/80 rounded-[20px] px-5 py-4">
+						<span class="shrink-0 mt-0.5" aria-hidden="true">✕</span>
+						<p id="form-error-text">Une erreur est survenue. Veuillez réessayer.</p>
+					</div>
+					<button type="submit" id="form-submit" class="w-full inline-flex items-center justify-center gap-2 bg-off-black text-paper-canvas rounded-full px-5 py-4 text-[14px] hover:bg-ink transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+						<span id="form-spinner" class="hidden w-4 h-4 rounded-full border-2 border-paper-canvas/30 border-t-paper-canvas animate-spin flex-shrink-0"></span>
+						<span id="form-btn-text">Envoyer le message</span>
+						<span id="form-btn-arrow" aria-hidden="true"> →</span>
+					</button>
 					</form>
 				</div>
 			</div>
@@ -373,5 +384,59 @@ const skills = rawSkills
 			toggle?.addEventListener('click', () => isOpen ? closeMenu() : openMenu());
 			mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 		</script>
+	<script>
+		const contactForm = document.getElementById('contact-form');
+		const formSuccess = document.getElementById('form-success');
+		const formError = document.getElementById('form-error');
+		const formErrorText = document.getElementById('form-error-text');
+		const formSubmit = document.getElementById('form-submit');
+		const formSpinner = document.getElementById('form-spinner');
+		const formBtnText = document.getElementById('form-btn-text');
+		const formBtnArrow = document.getElementById('form-btn-arrow');
+
+		function setLoading(loading) {
+			if (loading) {
+				formSpinner?.classList.remove('hidden');
+				formBtnArrow?.classList.add('hidden');
+				if (formBtnText) formBtnText.textContent = 'Envoi en cours…';
+				if (formSubmit) formSubmit.disabled = true;
+			} else {
+				formSpinner?.classList.add('hidden');
+				formBtnArrow?.classList.remove('hidden');
+				if (formBtnText) formBtnText.textContent = 'Envoyer le message';
+				if (formSubmit) formSubmit.disabled = false;
+			}
+		}
+
+		function showError(msg) {
+			if (formErrorText) formErrorText.textContent = msg;
+			formError?.classList.remove('hidden');
+			setTimeout(() => formError?.classList.add('hidden'), 6000);
+		}
+
+		contactForm?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			formError?.classList.add('hidden');
+			setLoading(true);
+			try {
+				const res = await fetch(contactForm.action, {
+					method: 'POST',
+					body: new FormData(contactForm),
+					headers: { Accept: 'application/json' },
+				});
+				if (res.ok) {
+					contactForm.reset();
+					if (formSuccess) formSuccess.classList.remove('hidden');
+					if (formSubmit) formSubmit.style.display = 'none';
+				} else {
+					setLoading(false);
+					showError('Une erreur est survenue. Vérifiez votre connexion et réessayez.');
+				}
+			} catch {
+				setLoading(false);
+				showError('Erreur réseau. Vérifiez votre connexion et réessayez.');
+			}
+		});
+	</script>
 	</body>
 </html>
