@@ -1,4 +1,5 @@
 ---
+import ThemeToggle from '../../components/ThemeToggle.astro';
 import '../../styles/global.css';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
@@ -29,6 +30,12 @@ const projectNum = String(project.data.order).padStart(2, '0');
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+    <script is:inline>
+      const _t = localStorage.getItem('theme');
+      if (_t === 'dark' || (!_t && matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
   </head>
   <body class="font-mono text-ink bg-paper-canvas antialiased">
 
@@ -44,6 +51,7 @@ const projectNum = String(project.data.order).padStart(2, '0');
             <span class="hidden md:block text-[11px] tracking-[0.08em] uppercase text-faint-text truncate max-w-[220px]">
               {projectNum} — {project.data.title}
             </span>
+            <ThemeToggle />
             <a href="/#projets" class="inline-flex items-center gap-2 text-[13px] text-off-black border border-off-black/30 rounded-full px-4 py-2 hover:bg-off-black hover:text-paper-canvas transition-colors">
               ← Projets
             </a>
@@ -144,7 +152,7 @@ const projectNum = String(project.data.order).padStart(2, '0');
     <!-- Footer -->
     <footer class="border-t border-pale-stone/20">
       <div class="max-w-[1432px] mx-auto px-6 md:px-10 py-10 flex flex-col sm:flex-row justify-between items-center gap-4 text-[12px] tracking-[0.05em] uppercase text-faint-text">
-        <p>© 2025 John Musans</p>
+        <p>© {new Date().getFullYear()} John Musans</p>
         <div class="flex items-center gap-6">
           <a href="/#contact" class="hover:text-ink transition-colors">Me contacter →</a>
           <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="hover:text-ink transition-colors cursor-pointer">↑ Haut de page</button>

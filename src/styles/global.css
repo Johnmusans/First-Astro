@@ -160,3 +160,29 @@ html {
   font-style: italic;
   line-height: 1.5;
 }
+
+/* Dark mode — color token overrides */
+html.dark {
+  --color-ink: #ede9e4;
+  --color-paper-canvas: #111110;
+  --color-off-black: #c4c0bb;
+  --color-pale-stone: #78746f;
+  --color-whisper-gray: #1c1c1a;
+  --color-atmosphere-wash: #1c2235;
+  --color-faint-text: #4e4b48;
+}
+
+/* View Transitions — circle reveal for theme toggle */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  ::view-transition-old(root) { z-index: 1; }
+  ::view-transition-new(root) { z-index: 999; }
+}
+
+/* Theme toggle icons */
+html:not(.dark) .theme-icon-sun { display: none; }
+html.dark .theme-icon-moon { display: none; }
