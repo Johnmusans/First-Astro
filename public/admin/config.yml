@@ -1,0 +1,106 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Decap CMS — Configuration for John Musans Portfolio
+# Backend: GitHub (PKCE — no server needed)
+#
+# SETUP STEPS:
+# 1. Go to GitHub → Settings → Developer settings → OAuth Apps → New OAuth App
+#    - Application name: John Portfolio CMS
+#    - Homepage URL: https://your-site.com
+#    - Authorization callback URL: https://your-site.com/
+# 2. Copy the Client ID and paste it below as `app_id`
+# 3. Push this file to your repo and deploy
+# ─────────────────────────────────────────────────────────────────────────────
+
+backend:
+  name: github
+  repo: Johnmusans/First-Astro
+  branch: main
+  auth_type: pkce
+  app_id: REPLACE_WITH_YOUR_GITHUB_OAUTH_APP_CLIENT_ID
+
+# Local dev: run `npx decap-server` then set this to true
+# local_backend: true
+
+media_folder: public/uploads
+public_folder: /uploads
+
+locale: fr
+
+collections:
+  # ── Projects ───────────────────────────────────────────────────────────────
+  - name: projects
+    label: Projets
+    label_singular: Projet
+    folder: src/content/projects
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    fields:
+      - { label: Titre, name: title, widget: string }
+      - { label: Description courte, name: description, widget: text }
+      - { label: Image (URL), name: image, widget: string }
+      - label: Tags
+        name: tags
+        widget: list
+        allow_add: true
+        field: { label: Tag, name: tag, widget: string }
+      - { label: En vedette, name: featured, widget: boolean, default: false }
+      - { label: Ordre d'affichage, name: order, widget: number, default: 99 }
+      - { label: Lien du projet, name: link, widget: string, default: "#" }
+      - label: Description longue (Markdown)
+        name: body
+        widget: markdown
+        required: false
+
+  # ── Experiences ────────────────────────────────────────────────────────────
+  - name: experiences
+    label: Expériences
+    label_singular: Expérience
+    folder: src/content/experiences
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    fields:
+      - { label: Poste, name: role, widget: string }
+      - { label: Entreprise, name: company, widget: string }
+      - { label: Période, name: period, widget: string, hint: "Ex: 2023 - Présent" }
+      - { label: Ordre d'affichage, name: order, widget: number, default: 99 }
+      - { label: Description, name: body, widget: markdown }
+
+  # ── Skills ─────────────────────────────────────────────────────────────────
+  - name: skills
+    label: Compétences
+    label_singular: Catégorie de compétences
+    folder: src/content/skills
+    create: true
+    delete: true
+    fields:
+      - { label: Catégorie, name: category, widget: string }
+      - label: Compétences
+        name: items
+        widget: list
+        allow_add: true
+        field: { label: Compétence, name: item, widget: string }
+      - { label: Ordre, name: order, widget: number, default: 99 }
+
+  # ── Blog ───────────────────────────────────────────────────────────────────
+  - name: blog
+    label: Blog
+    label_singular: Article
+    folder: src/content/blog
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Titre, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Date de publication, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - label: Tags
+        name: tags
+        widget: list
+        allow_add: true
+        default: []
+        field: { label: Tag, name: tag, widget: string }
+      - { label: Image de couverture (URL), name: cover, widget: string, required: false }
+      - { label: Brouillon, name: draft, widget: boolean, default: false }
+      - { label: Contenu, name: body, widget: markdown }

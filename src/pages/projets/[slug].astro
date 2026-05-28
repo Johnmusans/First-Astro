@@ -1,0 +1,117 @@
+---
+import '../../styles/global.css';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+const { slug } = Astro.params;
+const allProjects = await getCollection('projects');
+const project = allProjects.find((p: CollectionEntry<'projects'>) => p.slug === slug);
+
+if (!project) return Astro.redirect('/404');
+
+const { Content } = await project.render();
+const other = allProjects
+  .filter((p: CollectionEntry<'projects'>) => p.slug !== slug)
+  .sort((a: CollectionEntry<'projects'>, b: CollectionEntry<'projects'>) => a.data.order - b.data.order)
+  .slice(0, 3);
+---
+
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{project.data.title} — John Musans</title>
+    <meta name="description" content={project.data.description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body class="font-mono text-ink bg-paper-canvas antialiased">
+    <!-- Nav -->
+    <header class="sticky top-0 z-50 bg-paper-canvas/85 backdrop-blur-md border-b border-pale-stone/15">
+      <div class="max-w-[1432px] mx-auto px-6 md:px-10">
+        <div class="flex items-center justify-between py-5">
+          <a href="/" class="font-display text-[22px] text-ink">John<span class="text-faint-text">.</span>M</a>
+          <a href="/#projets" class="inline-flex items-center gap-2 text-[14px] text-off-black hover:underline underline-offset-4">
+            ← Tous les projets
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="max-w-[1432px] mx-auto px-6 md:px-10 pt-16 pb-12">
+      <div class="mb-6 flex flex-wrap gap-2">
+        {project.data.tags.map((tag: string) => (
+          <span class="text-[12px] tracking-[0.05em] uppercase text-off-black border border-off-black/60 rounded-full px-3 py-1">{tag}</span>
+        ))}
+      </div>
+      <h1 class="font-display text-[40px] md:text-[64px] text-ink leading-[1.05] tracking-[-0.02em] max-w-4xl mb-6">
+        {project.data.title}
+      </h1>
+      <p class="text-[18px] text-pale-stone max-w-2xl leading-[1.5]">{project.data.description}</p>
+    </section>
+
+    <!-- Cover image -->
+    <section class="max-w-[1432px] mx-auto px-6 md:px-10 pb-16">
+      <div class="w-full aspect-[16/9] rounded-[32px] overflow-hidden bg-atmosphere-wash">
+        <img
+          src={project.data.image}
+          alt={project.data.title}
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </section>
+
+    <!-- Content -->
+    <section class="max-w-[720px] mx-auto px-6 md:px-10 pb-24">
+      <div class="prose prose-slate max-w-none
+        [&_h2]:font-serif [&_h2]:text-[32px] [&_h2]:text-ink [&_h2]:leading-[1.2] [&_h2]:tracking-[-0.02em] [&_h2]:mt-12 [&_h2]:mb-4
+        [&_h3]:font-serif [&_h3]:text-[24px] [&_h3]:text-ink [&_h3]:leading-[1.2] [&_h3]:mt-8 [&_h3]:mb-3
+        [&_p]:text-[16px] [&_p]:text-pale-stone [&_p]:leading-[1.6] [&_p]:mb-4
+        [&_ul]:space-y-2 [&_ul]:mb-4 [&_li]:text-[16px] [&_li]:text-pale-stone [&_li]:leading-[1.5]
+        [&_strong]:text-ink [&_strong]:font-medium">
+        <Content />
+      </div>
+
+      {project.data.link && project.data.link !== '#' && (
+        <div class="mt-12">
+          <a href={project.data.link} target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-off-black text-paper-canvas rounded-full px-6 py-4 text-[14px] hover:bg-ink transition-colors">
+            Voir le projet en ligne →
+          </a>
+        </div>
+      )}
+    </section>
+
+    <!-- Other projects -->
+    {other.length > 0 && (
+      <section class="max-w-[1432px] mx-auto px-6 md:px-10 pb-24">
+        <div class="border-t border-pale-stone/20 pt-16">
+          <p class="text-[12px] tracking-[0.05em] uppercase text-off-black mb-3">Autres projets</p>
+          <h2 class="font-display text-[32px] text-ink mb-10">À voir aussi.</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {other.map((p: CollectionEntry<'projects'>) => (
+              <a href={`/projets/${p.slug}`} class="group block rounded-[32px] border border-pale-stone/20 hover:border-off-black p-5 transition-colors">
+                <div class="aspect-[4/3] rounded-[20px] overflow-hidden bg-paper-canvas/60 mb-4">
+                  <img src={p.data.image} alt={p.data.title} loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                </div>
+                <h3 class="font-display text-[22px] text-ink mb-1">{p.data.title}</h3>
+                <p class="text-[14px] text-pale-stone">{p.data.description}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Footer -->
+    <footer class="border-t border-pale-stone/20">
+      <div class="max-w-[1432px] mx-auto px-6 md:px-10 py-10 flex flex-col sm:flex-row justify-between gap-4 text-[12px] tracking-[0.05em] uppercase text-faint-text">
+        <p>© 2025 John Musans</p>
+        <a href="/#contact" class="hover:text-ink">Me contacter →</a>
+      </div>
+    </footer>
+  </body>
+</html>

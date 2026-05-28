@@ -1,1 +1,51 @@
 @import "tailwindcss";
+
+@theme {
+  /* Monad — Colors */
+  --color-ink: #000000;
+  --color-paper-canvas: #f6f3f1;
+  --color-off-black: #242424;
+  --color-pale-stone: #4e4d4d;
+  --color-whisper-gray: #3d3d3d;
+  --color-atmosphere-wash: #cfdaf5;
+  --color-subtle-link: #333333;
+  --color-faint-text: #797776;
+
+  /* Monad — Fonts */
+  --font-mono: 'ABC Diatype Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-serif: 'Untitled Serif', 'Noto Serif', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: 'Untitled Sans', Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Monad — Radii */
+  --radius-card: 40px;
+  --radius-pill: 100px;
+  --radius-tag: 2000px;
+
+  /* Monad — Shadows */
+  --shadow-soft: rgba(0, 0, 0, 0.1) 0px 0px 10px 0px;
+}
+
+:root {
+  --gradient-sunset-violet: linear-gradient(rgba(255, 148, 115, 0.8) 7%, rgba(160, 181, 235, 0.8) 83.82%);
+  --gradient-sky-mint: linear-gradient(rgb(160, 181, 235), rgb(167, 252, 205));
+  --gradient-amber-glow: linear-gradient(270deg, rgba(226, 193, 97, 0.7) 23.5%, rgba(243, 122, 10, 0.7) 76%);
+}
+
+html {
+  background: var(--color-paper-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+}
+
+/* Headings use the serif display face by default */
+.font-display {
+  font-family: var(--font-serif);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+/* Decorative gradient blobs */
+.blob-sunset { background: var(--gradient-sunset-violet); }
+.blob-sky-mint { background: var(--gradient-sky-mint); }
+.blob-amber { background: var(--gradient-amber-glow); }

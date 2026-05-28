@@ -15,6 +15,10 @@ const rawSkills = await getCollection('skills');
 const skills = rawSkills
   .sort((a: CollectionEntry<'skills'>, b: CollectionEntry<'skills'>) => a.data.order - b.data.order);
 
+const rawBlog = await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => !data.draft);
+const blogPosts = rawBlog
+  .sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <!DOCTYPE html>
@@ -52,6 +56,7 @@ const skills = rawSkills
 						<a href="#competences" class="px-2.5 py-2 hover:underline underline-offset-4">Compétences</a>
 						<a href="#experience" class="px-2.5 py-2 hover:underline underline-offset-4">Expérience</a>
 						<a href="#faq" class="px-2.5 py-2 hover:underline underline-offset-4">FAQ</a>
+						<a href="/blog" class="px-2.5 py-2 hover:underline underline-offset-4">Blog</a>
 					</nav>
 					<div class="flex items-center gap-3">
 						<a href="https://github.com/Johnmusans" target="_blank" rel="noopener" class="hidden md:inline text-[14px] text-off-black hover:underline underline-offset-4">GitHub</a>
@@ -210,6 +215,40 @@ const skills = rawSkills
 				</div>
 			</div>
 		</section>
+
+		<!-- Blog -->
+		{blogPosts.length > 0 && (
+		<section class="max-w-[1432px] mx-auto px-6 md:px-10 pb-24" id="blog">
+			<div class="flex items-end justify-between mb-12 gap-6 flex-wrap">
+				<div>
+					<p class="text-[12px] tracking-[0.05em] uppercase text-off-black mb-3">Blog</p>
+					<h2 class="font-display text-[32px] md:text-[40px] text-ink max-w-xl">Réflexions sur le design.</h2>
+				</div>
+				<a href="/blog" class="text-[14px] text-off-black border-b border-off-black/30 pb-0.5 hover:border-off-black">Tous les articles →</a>
+			</div>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+				{blogPosts.map((post: CollectionEntry<'blog'>) => (
+					<a href={`/blog/${post.slug}`} class="group block rounded-[32px] border border-pale-stone/20 hover:border-off-black p-5 transition-colors">
+						{post.data.cover && (
+							<div class="aspect-[16/9] rounded-[20px] overflow-hidden bg-paper-canvas/60 mb-5">
+								<img src={post.data.cover} alt={post.data.title} loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+							</div>
+						)}
+						<div class="flex flex-wrap gap-2 mb-3">
+							{post.data.tags.map((tag: string) => (
+								<span class="text-[12px] tracking-[0.05em] uppercase text-off-black border border-off-black/60 rounded-full px-3 py-1">{tag}</span>
+							))}
+						</div>
+						<h3 class="font-display text-[22px] text-ink mb-2 leading-[1.2]">{post.data.title}</h3>
+						<p class="text-[14px] text-pale-stone leading-[1.5] mb-4">{post.data.description}</p>
+						<span class="text-[12px] tracking-[0.05em] uppercase text-faint-text">
+							{post.data.date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+						</span>
+					</a>
+				))}
+			</div>
+		</section>
+		)}
 
 		<!-- FAQ -->
 		<section class="max-w-[1024px] mx-auto px-6 md:px-10 pb-24" id="faq">
