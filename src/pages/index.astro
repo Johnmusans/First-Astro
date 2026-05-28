@@ -22,7 +22,7 @@ const skills = rawSkills
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<title>John MUSANS — UI/UX Designer & Frontend Developer</title>
 		<meta name="description" content="Designer créatif spécialisé en interfaces utilisateur et développement frontend" />
@@ -55,42 +55,50 @@ const skills = rawSkills
 					</nav>
 					<div class="flex items-center gap-3">
 						<a href="https://github.com/Johnmusans" target="_blank" rel="noopener" class="hidden md:inline text-[14px] text-off-black hover:underline underline-offset-4">GitHub</a>
-						<a href="#contact" class="inline-flex items-center gap-2 border border-off-black text-off-black rounded-full px-4 py-2 text-[14px] hover:bg-off-black hover:text-paper-canvas transition-colors">
+						<a href="#contact" class="hidden md:inline-flex items-center gap-2 border border-off-black text-off-black rounded-full px-4 py-2 text-[14px] hover:bg-off-black hover:text-paper-canvas transition-colors">
 							Me contacter <span aria-hidden="true">→</span>
 						</a>
+						<button id="menu-toggle" class="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8" aria-label="Ouvrir le menu" aria-expanded="false">
+							<span class="block w-full h-0.5 bg-ink origin-center transition-all duration-300"></span>
+							<span class="block w-full h-0.5 bg-ink transition-all duration-300"></span>
+							<span class="block w-full h-0.5 bg-ink origin-center transition-all duration-300"></span>
+						</button>
 					</div>
 				</div>
 			</div>
 		</header>
 
+		<!-- Mobile Menu Overlay -->
+		<nav id="mobile-menu" class="fixed inset-0 z-40 bg-paper-canvas flex flex-col items-center justify-center gap-7 opacity-0 pointer-events-none" aria-hidden="true">
+			<a href="#projets" class="font-display text-[36px] text-ink hover:text-faint-text transition-colors mobile-nav-link">Projets</a>
+			<a href="#competences" class="font-display text-[36px] text-ink hover:text-faint-text transition-colors mobile-nav-link">Compétences</a>
+			<a href="#experience" class="font-display text-[36px] text-ink hover:text-faint-text transition-colors mobile-nav-link">Expérience</a>
+			<a href="#faq" class="font-display text-[36px] text-ink hover:text-faint-text transition-colors mobile-nav-link">FAQ</a>
+			<a href="#contact" class="font-display text-[36px] text-ink hover:text-faint-text transition-colors mobile-nav-link">Contact</a>
+		</nav>
+
 		<!-- Hero Section -->
 		<section class="relative overflow-hidden">
-			<!-- Decorative gradient blobs -->
-			<div class="pointer-events-none absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full blur-3xl opacity-70 blob-sunset"></div>
-			<div class="pointer-events-none absolute top-1/2 -left-32 w-[360px] h-[360px] rounded-full blur-3xl opacity-60 blob-sky-mint"></div>
-
 			<div class="relative max-w-[1432px] mx-auto px-6 md:px-10 pt-24 pb-32 md:pt-32 md:pb-40 text-center">
-				<span class="inline-block border border-off-black/80 rounded-full px-3 py-1 text-[12px] tracking-[0.05em] uppercase text-off-black mb-8">UI/UX · Frontend</span>
-				<h1 class="font-display text-[44px] sm:text-[64px] md:text-[80px] leading-[1.05] tracking-[-0.02em] text-ink max-w-4xl mx-auto">
+				<span data-animate class="inline-block border border-off-black/80 rounded-full px-3 py-1 text-[12px] tracking-[0.05em] uppercase text-off-black mb-8">UI/UX · Frontend</span>
+				<h1 data-animate data-delay="1" class="font-display text-[32px] sm:text-[56px] md:text-[80px] leading-[1.05] tracking-[-0.02em] text-ink max-w-4xl mx-auto">
 					Des interfaces claires,<br />pensées pour <em class="not-italic underline decoration-1 underline-offset-[10px] decoration-off-black/30">l'humain</em>.
 				</h1>
-				<p class="mt-8 text-[16px] md:text-[18px] text-pale-stone max-w-xl mx-auto leading-[1.5]">
+				<p data-animate data-delay="2" class="mt-8 text-[16px] md:text-[18px] text-pale-stone max-w-xl mx-auto leading-[1.5]">
 					Je conçois et développe des produits digitaux élégants, sobres et performants — au service de l'usage et de la marque.
 				</p>
-				<div class="mt-10 flex flex-wrap gap-3 justify-center">
+				<div data-animate data-delay="3" class="mt-10 flex flex-wrap gap-3 justify-center">
 					<a href="#projets" class="inline-flex items-center gap-2 bg-off-black text-paper-canvas rounded-full px-5 py-3.5 text-[14px] hover:bg-ink transition-colors">
 						Voir mes projets <span aria-hidden="true">→</span>
 					</a>
 					<a href="#contact" class="inline-flex items-center gap-2 border border-off-black text-off-black rounded-full px-5 py-3.5 text-[14px] hover:bg-off-black hover:text-paper-canvas transition-colors">
 						Discuter
 					</a>
-				</div>
-			</div>
 		</section>
 
 		<!-- About -->
 		<section class="max-w-[1432px] mx-auto px-6 md:px-10 pb-24">
-			<div class="bg-atmosphere-wash rounded-[40px] p-8 md:p-10 lg:p-14">
+			<div data-animate class="bg-atmosphere-wash rounded-[40px] p-8 md:p-10 lg:p-14">
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
 					<div>
 						<p class="text-[12px] tracking-[0.05em] uppercase text-off-black mb-4">À propos</p>
@@ -103,9 +111,14 @@ const skills = rawSkills
 						<p class="text-[16px] text-pale-stone leading-[1.5] mb-8">
 							Mon approche : ne garder que l'essentiel, hiérarchiser l'information et soigner chaque détail typographique.
 						</p>
-						<a href="#contact" class="inline-flex items-center gap-2 text-[14px] text-ink border-b border-ink/30 pb-0.5 hover:border-ink">
-							Travaillons ensemble <span aria-hidden="true">→</span>
-						</a>
+						<div class="flex flex-wrap items-center gap-5">
+							<a href="#contact" class="inline-flex items-center gap-2 text-[14px] text-ink border-b border-ink/30 pb-0.5 hover:border-ink">
+								Travaillons ensemble <span aria-hidden="true">→</span>
+							</a>
+							<a href="/john-musans-cv.pdf" download class="inline-flex items-center gap-2 text-[14px] text-off-black border-b border-off-black/30 pb-0.5 hover:border-off-black transition-colors">
+								↓ Télécharger le CV
+							</a>
+						</div>
 					</div>
 					<div class="aspect-square rounded-[32px] overflow-hidden bg-paper-canvas/40">
 						<img src="/john-1 (1).jpg" alt="Portrait de John Musans" class="w-full h-full object-cover" />
@@ -116,14 +129,14 @@ const skills = rawSkills
 
 		<!-- Skills -->
 		<section class="max-w-[1432px] mx-auto px-6 md:px-10 pb-24" id="competences">
-			<div class="flex items-end justify-between mb-12 gap-6 flex-wrap">
+			<div data-animate class="flex items-end justify-between mb-12 gap-6 flex-wrap">
 				<div>
 					<p class="text-[12px] tracking-[0.05em] uppercase text-off-black mb-3">Compétences</p>
 					<h2 class="font-display text-[32px] md:text-[40px] text-ink max-w-xl">Une boîte à outils précise, mise au service du produit.</h2>
 				</div>
 				<p class="text-[14px] text-pale-stone max-w-sm">Du wireframe au déploiement, je couvre l'ensemble du cycle design ↔ code.</p>
 			</div>
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+			<div data-animate data-delay="1" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 				{skills.map((skill: CollectionEntry<'skills'>) => (
 					<div class="rounded-[32px] border border-pale-stone/20 p-6 hover:border-off-black transition-colors">
 						<h3 class="text-[14px] font-medium uppercase tracking-[0.05em] text-ink mb-5">{skill.data.category}</h3>
@@ -142,21 +155,46 @@ const skills = rawSkills
 
 		<!-- Projects -->
 		<section class="max-w-[1432px] mx-auto px-6 md:px-10 pb-24" id="projets">
-			<div class="flex items-end justify-between mb-12 gap-6 flex-wrap">
+			<div data-animate class="flex items-end justify-between mb-12 gap-6 flex-wrap">
 				<div>
 					<p class="text-[12px] tracking-[0.05em] uppercase text-off-black mb-3">Sélection</p>
 					<h2 class="font-display text-[32px] md:text-[40px] text-ink max-w-xl">Quelques projets récents.</h2>
 				</div>
 				<a href="#contact" class="text-[14px] text-off-black border-b border-off-black/30 pb-0.5 hover:border-off-black">Voir tout →</a>
 			</div>
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-				{projects.map((project: CollectionEntry<'projects'>, i: number) => (
-					<article class={`group rounded-[32px] p-5 transition-colors ${i % 3 === 0 ? 'bg-atmosphere-wash' : 'border border-pale-stone/20 hover:border-off-black'}`}>
+			{projects.length > 0 && (
+				<a data-animate data-delay="1" href={`/projets/${projects[0].slug}`}
+				   class="group flex flex-col md:flex-row rounded-[32px] bg-atmosphere-wash overflow-hidden mb-5 hover:shadow-[0_16px_48px_rgba(0,0,0,0.08)] transition-shadow duration-300">
+					<div class="md:w-[58%] aspect-[4/3] md:aspect-auto overflow-hidden">
+						<img src={projects[0].data.image} alt={projects[0].data.title} loading="lazy"
+						     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+					</div>
+					<div class="flex-1 flex flex-col justify-between p-8 md:p-10 lg:p-14">
+						<div>
+							<div class="flex flex-wrap gap-2 mb-6">
+								{projects[0].data.tags.map((tag: string) => (
+									<span class="text-[11px] tracking-[0.05em] uppercase text-off-black border border-off-black/50 rounded-full px-3 py-1">{tag}</span>
+								))}
+							</div>
+							<h3 class="font-display text-[32px] md:text-[42px] text-ink leading-[1.08] mb-4">
+								{projects[0].data.title}
+							</h3>
+							<p class="text-[15px] text-pale-stone leading-[1.6] max-w-sm">{projects[0].data.description}</p>
+						</div>
+						<div class="mt-8 inline-flex items-center gap-2 text-[14px] text-ink border-b border-ink/30 self-start pb-0.5 group-hover:border-ink transition-colors">
+							Voir le projet <span aria-hidden="true">→</span>
+						</div>
+					</div>
+				</a>
+			)}
+			<div data-animate data-delay="2" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+				{projects.slice(1).map((project: CollectionEntry<'projects'>) => (
+					<article class="group rounded-[32px] p-5 border border-pale-stone/20 hover:border-off-black transition-colors">
 						<div class="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-paper-canvas/60">
 							<img src={project.data.image} alt={project.data.title} loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
 						</div>
 						<div class="pt-5 px-1">
-							<h3 class="font-display text-[24px] text-ink mb-2">{project.data.title}</h3>
+							<h3 class="font-display text-[22px] text-ink mb-2">{project.data.title}</h3>
 							<p class="text-[14px] text-pale-stone leading-[1.5] mb-4">{project.data.description}</p>
 							<div class="flex flex-wrap gap-2 mb-5">
 								{project.data.tags.map((tag: string) => (
@@ -174,11 +212,11 @@ const skills = rawSkills
 
 		<!-- Experience timeline -->
 		<section class="max-w-[1432px] mx-auto px-6 md:px-10 pb-24" id="experience">
-			<div class="mb-12">
+			<div data-animate class="mb-12">
 				<p class="text-[12px] tracking-[0.05em] uppercase text-off-black mb-3">Parcours</p>
 				<h2 class="font-display text-[32px] md:text-[40px] text-ink max-w-xl">Expérience professionnelle.</h2>
 			</div>
-			<ol class="relative border-l border-pale-stone/30 pl-8 space-y-10">
+			<ol data-animate data-delay="1" class="relative border-l border-pale-stone/30 pl-8 space-y-10">
 				{experiences.map((exp: CollectionEntry<'experiences'>) => (
 					<li class="relative">
 						<span class="absolute -left-[37px] top-1.5 w-3 h-3 rounded-full bg-off-black ring-4 ring-paper-canvas"></span>
@@ -194,7 +232,7 @@ const skills = rawSkills
 
 		<!-- Stats -->
 		<section class="max-w-[1432px] mx-auto px-6 md:px-10 pb-24">
-			<div class="bg-ink text-paper-canvas rounded-[40px] p-10 md:p-14">
+			<div data-animate class="bg-ink text-paper-canvas rounded-[40px] p-10 md:p-14">
 				<div class="grid grid-cols-2 lg:grid-cols-4 gap-10">
 					{[
 						['60+', 'Designs livrés'],
@@ -213,11 +251,11 @@ const skills = rawSkills
 
 		<!-- FAQ -->
 		<section class="max-w-[1024px] mx-auto px-6 md:px-10 pb-24" id="faq">
-			<div class="mb-12 text-center">
+			<div data-animate class="mb-12 text-center">
 				<p class="text-[12px] tracking-[0.05em] uppercase text-off-black mb-3">FAQ</p>
 				<h2 class="font-display text-[32px] md:text-[40px] text-ink">Questions fréquentes.</h2>
 			</div>
-			<div class="divide-y divide-pale-stone/30 border-t border-b border-pale-stone/30">
+			<div data-animate data-delay="1" class="divide-y divide-pale-stone/30 border-t border-b border-pale-stone/30">
 				{[
 					{ q: 'Quels types de projets acceptes-tu ?', a: 'Sites marketing, applications web/SaaS, design systems et refontes UX. Je travaille principalement avec des startups et studios.' },
 					{ q: 'Travailles-tu en remote ?', a: 'Oui — basé à Kinshasa (RDC), je collabore quotidiennement avec des équipes en Europe et en Afrique.' },
@@ -239,7 +277,7 @@ const skills = rawSkills
 		<section class="max-w-[1432px] mx-auto px-6 md:px-10 pb-24" id="contact">
 			<div class="relative overflow-hidden bg-atmosphere-wash rounded-[40px] p-8 md:p-14">
 				<div class="pointer-events-none absolute -bottom-24 -right-24 w-[320px] h-[320px] rounded-full blur-3xl opacity-70 blob-amber"></div>
-				<div class="relative grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
+				<div data-animate class="relative grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
 					<div>
 						<p class="text-[12px] tracking-[0.05em] uppercase text-off-black mb-3">Contact</p>
 						<h2 class="font-display text-[32px] md:text-[48px] text-ink leading-[1.1] mb-6">
@@ -287,5 +325,53 @@ const skills = rawSkills
 				</div>
 			</div>
 		</footer>
+		<script>
+			// Scroll reveal
+			const animEls = document.querySelectorAll('[data-animate]');
+			const io = new IntersectionObserver((entries) => {
+				entries.forEach(e => {
+					if (e.isIntersecting) {
+						e.target.classList.add('in-view');
+						io.unobserve(e.target);
+					}
+				});
+			}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+			animEls.forEach(el => io.observe(el));
+
+			// Mobile menu
+			const toggle = document.getElementById('menu-toggle');
+			const mobileMenu = document.getElementById('mobile-menu');
+			const lines = toggle?.querySelectorAll('span');
+			let isOpen = false;
+
+			function openMenu() {
+				isOpen = true;
+				toggle?.setAttribute('aria-expanded', 'true');
+				mobileMenu?.classList.remove('opacity-0', 'pointer-events-none');
+				mobileMenu?.setAttribute('aria-hidden', 'false');
+				document.body.style.overflow = 'hidden';
+				if (lines) {
+					lines[0].style.transform = 'translateY(7px) rotate(45deg)';
+					lines[1].style.opacity = '0';
+					lines[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+				}
+			}
+
+			function closeMenu() {
+				isOpen = false;
+				toggle?.setAttribute('aria-expanded', 'false');
+				mobileMenu?.classList.add('opacity-0', 'pointer-events-none');
+				mobileMenu?.setAttribute('aria-hidden', 'true');
+				document.body.style.overflow = '';
+				if (lines) {
+					lines[0].style.transform = '';
+					lines[1].style.opacity = '';
+					lines[2].style.transform = '';
+				}
+			}
+
+			toggle?.addEventListener('click', () => isOpen ? closeMenu() : openMenu());
+			mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+		</script>
 	</body>
 </html>
